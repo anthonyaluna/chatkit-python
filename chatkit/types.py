@@ -68,7 +68,7 @@ class ThreadCreateParams(BaseModel):
 class ThreadListParams(BaseModel):
     """Pagination parameters for listing threads."""
 
-    limit: int | None = None
+    limit: int | None = Field(default=None, ge=1, le=100)
     order: Literal["asc", "desc"] = "desc"
     after: str | None = None
 
@@ -236,7 +236,7 @@ class ItemsListParams(BaseModel):
     """Pagination parameters for listing thread items."""
 
     thread_id: str
-    limit: int | None = None
+    limit: int | None = Field(default=None, ge=1, le=100)
     order: Literal["asc", "desc"] = "desc"
     after: str | None = None
 
