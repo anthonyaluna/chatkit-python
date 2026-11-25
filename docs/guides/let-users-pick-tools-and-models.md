@@ -81,7 +81,8 @@ class MyChatKitServer(ChatKitServer[RequestContext]):
     ) -> AsyncIterator[ThreadStreamEvent]:
         options = input_user_message and input_user_message.inference_options
 
-        model = options.model if options and options.model else "gpt-4.1-mini"
+        approved_models = {"gpt-4.1-mini", "gpt-4.1"}  # Restrict further for the authenticated user.
+        model = options.model if options and options.model in approved_models else "gpt-4.1-mini"
         tool_choice = options.tool_choice.id if options and options.tool_choice else None
 
         # Use `model` and `tool_choice` when building your model request...
@@ -115,7 +116,8 @@ You control which tools each agent exposes; the composer’s tool menu just lets
 Use the selected model id to pick an underlying model or configuration when you call the OpenAI Responses API (or another provider):
 
 ```python
-model = inference.model if inference and inference.model else "gpt-4.1-mini"
+approved_models = {"gpt-4.1-mini", "gpt-4.1"}  # Restrict further for the authenticated user.
+model = inference.model if inference and inference.model in approved_models else "gpt-4.1-mini"
 
 response = await client.responses.create(
     model=model,

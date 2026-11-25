@@ -8,6 +8,7 @@ on:
 
 env:
   UV_FROZEN: "1"
+  UV_PYTHON: "3.12"
 
 jobs:
   ci:
@@ -23,7 +24,7 @@ jobs:
           enable-cache: true
 
       - name: Install
-        run: make sync
+        run: make install
 
       - name: Lint
         run: make lint
